@@ -1,45 +1,29 @@
 use serde::{Serialize, Deserialize};
 use serde_json::{Result, Value};
 
-pub fn untyped_example() -> Result<()> {
-    let data = r#"
-    {
-        "name": "John Doe",
-        "age": 43,
-        "phones": [
-            "+44 1234567",
-            "+44 2345678"
-        ]
-    }"#;
+pub fn untyped_example(data: &str) -> Result<()> {
 
     let v: Value = serde_json::from_str(data)?;
 
-    println!("Please call {} at the number {}", v["name"], v["phones"][0]);
+    println!("JSON Object: {:?}", v);
 
     Ok(())
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Person {
     name: String,
     age: u8,
     phones: Vec<String>,
 }
 
-pub fn typed_example() -> Result<()> {
-    let data = r#"
-    {
-        "name": "John Doe",
-        "age": 43,
-        "phones": [
-            "+44 1234567",
-            "+44 2345678"
-        ]
-    }"#;
+pub fn typed_example(data: &str) -> Result<()> {
 
     let p: Person = serde_json::from_str(data)?;
 
     println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    println!("Please call {:?}", p);
 
     Ok(())
 }
